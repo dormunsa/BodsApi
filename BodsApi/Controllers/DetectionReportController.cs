@@ -16,7 +16,7 @@ namespace BodsApi.Controllers
     public class DetectionReportController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> ResetPassword([FromQuery] DateTime fromDate, DateTime toDate)
+        public async Task<IActionResult> GetReport([FromQuery] DateTime fromDate, DateTime toDate)
         {
             string userGuid = HttpContext.Request.Headers["UserGuid"];
             DetectionLogic detectionLogic = new DetectionLogic();
