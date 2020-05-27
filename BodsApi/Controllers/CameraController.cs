@@ -55,7 +55,7 @@ namespace BodsApi.Controllers
             CameraLogic cameraLogic = new CameraLogic();
             List<Camera> cameras =  await cameraLogic.GetAllUserCameras(userGuid);
             if (cameras == null)
-                return BadRequest(cameraLogic.Response.ErrorMessage);
+                return Ok(new List<Camera>());
             return Ok(cameras);
         }
     }

@@ -16,11 +16,11 @@ namespace BodsApi.Controllers
     public class SetUserPasswordController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> SetPassword([FromBody] UpdatePasswordRequest updatePasswordRequest)
+        public async Task<IActionResult> SetPassword([FromBody] string newPassword)
         {
             string userGuid = HttpContext.Request.Headers["UserGuid"];
             UserLogic userLogic = new UserLogic();
-            if (!await userLogic.UpdatePortalUserPassword(updatePasswordRequest, userGuid))
+            if (!await userLogic.UpdatePortalUserPassword(newPassword, userGuid))
                 return BadRequest(userLogic.Response.ErrorMessage);
             return Ok("Success");
         }

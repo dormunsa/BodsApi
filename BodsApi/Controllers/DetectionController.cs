@@ -31,7 +31,7 @@ namespace BodsApi.Controllers
             DetectionLogic detectionLogic = new DetectionLogic();
             List<Detection> detections = await detectionLogic.GetByUserGuid(userGuid);
             if (detections == null)
-                return BadRequest(detectionLogic.Response.ErrorMessage);
+                return Ok(new List<Detection>());
             return Ok(detections);
         }
     }

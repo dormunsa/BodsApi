@@ -68,7 +68,7 @@ namespace BodsLogic
             }
         }
 
-        public async Task<bool> UpdatePortalUserPassword(UpdatePasswordRequest updatePassword, string guid)
+        public async Task<bool> UpdatePortalUserPassword(string newPassword, string guid)
         {
 
             if (string.IsNullOrEmpty(guid))
@@ -77,7 +77,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "You must provide guid";
                 return Response.IsSuccessful;
             }
-            if (string.IsNullOrEmpty(updatePassword?.UserName) || string.IsNullOrEmpty(updatePassword?.NewPassword))
+            if ( string.IsNullOrEmpty(newPassword))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide user name or password";
@@ -85,13 +85,13 @@ namespace BodsLogic
             }
             //read portalUser
             User user = await userCRUDService.GetByUserGuid(guid);
-            if (user == null || user?.IsSetPasswordAllowed == false || user?.UserName != updatePassword.UserName)
+            if (user == null || user?.IsSetPasswordAllowed == false )
                 return false;
 
             //hash password
             byte[] salt = CryptographyHelper.GenerateRandomSalt();
 
-            string hashedPassword = CryptographyHelper.HashPassword(updatePassword.NewPassword, salt);
+            string hashedPassword = CryptographyHelper.HashPassword(newPassword, salt);
 
             return await userCRUDService.UpdatePassword(hashedPassword, guid, salt);
         }

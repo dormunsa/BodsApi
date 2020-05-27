@@ -22,7 +22,7 @@ namespace BodsApi.Controllers
             DetectionLogic detectionLogic = new DetectionLogic();
             List<DetectionResponse> detections = await detectionLogic.ReadDetection(fromDate , toDate , userGuid);
             if (detections == null)
-                return BadRequest(detectionLogic.Response.ErrorMessage);
+                return Ok(new List<DetectionResponse>());
             return Ok(detections);
         }
     }
