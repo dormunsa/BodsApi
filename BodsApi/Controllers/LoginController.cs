@@ -26,7 +26,7 @@ namespace BodsApi.Controllers
 
             return Ok(userLogic.loginResponse);
         }
-        //
+        
         [HttpGet]
         public async Task<IActionResult> LoginByGuid()
         {

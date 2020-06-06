@@ -12,6 +12,7 @@ namespace BodsApi.Controllers
     [ApiController]
     public class TimeRangeController : ControllerBase
     {
+        [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string timeRange)
         {
             TimeRangeLogic timeZoneLogic = new TimeRangeLogic();
