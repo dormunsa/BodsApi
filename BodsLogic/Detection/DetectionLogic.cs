@@ -122,7 +122,6 @@ namespace BodsLogic
                     List<int> count = new List<int>();
                     foreach (var item in houers)
                     {
-                        int count1 = item.Count();
                         count.Add(item.Count());
                         detections.Dates.Add( item.Key.ToString() + ":00");
                     }
@@ -139,7 +138,6 @@ namespace BodsLogic
                         List<int> count = new List<int>();
                         foreach (var item in dates)
                         {
-                            int count1 = item.Count();
                             count.Add(item.Count());
                             detections.Dates.Add(item.Key.Date.Day.ToString() + '/' + item.Key.Date.Month.ToString() + '/' + item.Key.Date.Year.ToString());
                         }
