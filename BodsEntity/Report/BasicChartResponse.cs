@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for get chart of detection response 
     public class BasicChartResponse
     {
         public BasicChartResponse(string name, List<int> data)

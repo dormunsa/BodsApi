@@ -13,8 +13,10 @@ namespace BodsApi.Controllers
     [ApiController]
     [AuthorizationActionFilter]
 
+    // this controller is responsible for change camera working status opertions
     public class ChangeCameraStatusController : ControllerBase
     {
+        // change working status by camera id 
         [HttpPost]
         public async Task<IActionResult> ChangeWorkingStatus([FromBody]int cameraId)
         {

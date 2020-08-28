@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for login operation
     public class LoginRequest
     {
         public string UserName { get; set; }

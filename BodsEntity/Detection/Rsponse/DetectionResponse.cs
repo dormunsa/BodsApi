@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for get detection response 
     public class DetectionResponse
     {
         public int CameraId { get; set; }

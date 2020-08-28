@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define weather object as it stored at DB
     public class Weather
     {
         public int WeatherId { get; set; }

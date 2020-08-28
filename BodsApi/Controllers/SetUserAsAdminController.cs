@@ -12,8 +12,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for set user as admin
     public class SetUserAsAdminController : ControllerBase
     {
+        //responsible for set user as admin by user id 
         [HttpPost]
         public async Task<IActionResult> SetAsAdmin([FromBody]int userId)
         {

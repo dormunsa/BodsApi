@@ -26,17 +26,20 @@ namespace BodsLogic
 
         public async Task<List<Detection>> GetDetection(int detectionId)
         {  
+            // get all detections
             return await detectionCRUDService.GetDetection(detectionId);
         }
 
         public async Task<List<Detection>> GetByUserGuid(string guid)
         {
+            // validate request values
             if (string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "Bad Request";
                 return null;
             }
+            // get user by guid 
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.UserId == 0)
             {
@@ -44,6 +47,8 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist ";
                 return null;
             }
+
+            // get user cameras  by user id  
             List<UserCamera> userCameras = await userCameraLogic.GetByUserId(user.UserId);
             if (userCameras.Count == 0)
             {
@@ -51,6 +56,8 @@ namespace BodsLogic
                 Response.ErrorMessage = "no detections";
                 return null;
             }
+
+            // get detecions object by camera id in for each loop on user cameras
             List<Detection> detections = new List<Detection>();
             foreach (UserCamera userCamera in userCameras)
             {
@@ -60,12 +67,14 @@ namespace BodsLogic
         }
         public async Task<List<DetectionResponse>> ReadDetection(DateTime fromDate, DateTime toDate , string guid)
         {
+            // validate request values
             if (fromDate == null || toDate == null || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "Bad Request";
                 return null;
             }
+            // get user by guid 
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.UserId == 0)
             {
@@ -73,6 +82,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist ";
                 return null;
             }
+            // get user cameras  by user id  
             List<UserCamera> userCameras = await userCameraLogic.GetByUserId(user.UserId);
             if (userCameras.Count == 0)
             {
@@ -80,7 +90,9 @@ namespace BodsLogic
                 Response.ErrorMessage = "no detections";
                 return null;
             }
+
             List<DetectionResponse> detections = new List<DetectionResponse>();
+            // get detecions object by camera  id and dates  in for each loop on user cameras
             foreach (UserCamera userCamera in userCameras)
             {
                 detections.AddRange(await detectionCRUDService.ReadDetection(fromDate, toDate , userCamera.CameraId));
@@ -90,12 +102,14 @@ namespace BodsLogic
        
         public async Task<ReportResponse> ReadDetectionChart(DateTime fromDate, DateTime toDate, string guid)
         {
+            // validate request values
             if (fromDate == null || toDate == null || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "Bad Request";
                 return null;
             }
+            // get user by guid 
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.UserId == 0)
             {
@@ -103,6 +117,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist ";
                 return null;
             }
+            // get user cameras  by user id  
             List<UserCamera> userCameras = await userCameraLogic.GetByUserId(user.UserId);
             if (userCameras.Count == 0)
             {
@@ -111,12 +126,18 @@ namespace BodsLogic
                 return null;
             }
             ReportResponse detections = new ReportResponse();
+            // build chart object in for each loop 
             foreach (UserCamera userCamera in userCameras)
             {
+                //get camera by id 
                 Camera camera = await cameraCRUDService.GetCameraById(userCamera.CameraId);
+                //read detcions by camera id and dates
                 List<DetectionResponse> detectionResponses = await detectionCRUDService.ReadDetection(fromDate, toDate, userCamera.CameraId);
+                //get lists of dates and houers
                 var dates = detectionResponses.GroupBy(d => d.Date.Date).Distinct();
                 var houers = detectionResponses.GroupBy(d => d.Date.Hour).Distinct();
+
+                //check if this one day report and return response by houres
                 if (fromDate.Date == toDate.Date)
                 {
                     List<int> count = new List<int>();
@@ -132,6 +153,7 @@ namespace BodsLogic
                     }
                 }
 
+                //check if this many days report and return response by dayes
                 else
                 {
                     {
@@ -165,7 +187,7 @@ namespace BodsLogic
         public async Task InsertDetection(InsertDetection detection)
         {
             Response.IsSuccessful = true;
-
+            // validate request values
             if (detection.WeatherId == 0 || detection.CameraId == 0)
             {
                 Response.IsSuccessful = false;
@@ -181,7 +203,9 @@ namespace BodsLogic
                 Date = DateTime.UtcNow,
                 ImagePath = detection.ImagePath
             };
-            if(! await detectionCRUDService.InsertDetection(newDetection))
+
+            // insert detection
+            if (! await detectionCRUDService.InsertDetection(newDetection))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "Cannot Insert Detecion ";

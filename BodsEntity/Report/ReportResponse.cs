@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for get basic table report of detection response 
     public class ReportResponse
     {
         public ReportResponse()

@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace BodsData
 {
+    // responsible for all the queries to camera table at DB
     public class CameraData
     {
+        // get camera by camera id query
         public async Task<Camera> GetCameraById(int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -27,6 +29,7 @@ namespace BodsData
 
         }
 
+        // get camera by location values query
         public async Task<Camera> GetCameraByLocation(double latitude , double longitude )
         {
             DynamicParameters _params = new DynamicParameters();
@@ -44,7 +47,7 @@ namespace BodsData
             }
 
         }
-
+        // Update camera details query by camera Id
         public async Task<bool> UpdateCamera(Camera camera)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -67,6 +70,7 @@ namespace BodsData
 
         }
 
+        // Update camera working status values query
         public async Task<bool> ChangeWorkingStatus(bool isWorking , int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -85,7 +89,8 @@ namespace BodsData
 
         }
 
-        public async Task<ulong> InsertCamera(Camera camera)
+        // Insert camera query
+        public async Task<int> InsertCamera(Camera camera)
         {
             DynamicParameters _params = new DynamicParameters();
 
@@ -109,17 +114,17 @@ namespace BodsData
                                      + " ,@LocationName"
                                      + " ,@IsWorking"
                                      + " ,@DateAdded"
-                                     + ");";
+                                     + ") ;";
 
             using (IDbConnection conn = DataLayer.NewConnection())
             {
                  Convert.ToBoolean(await conn.ExecuteAsync(sql, _params));
-                 var id = conn.Query<ulong>("SELECT CAST(LAST_INSERT_ID() AS UNSIGNED INTEGER);").Single();
+                 var id = conn.Query<int>("SELECT CAST(LAST_INSERT_ID();").Single();
                  return id;
             }
 
         }
-
+        // Delete camera query
         public async Task<bool> DeleteCamera(int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();

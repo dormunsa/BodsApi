@@ -11,7 +11,7 @@ namespace BodsApi.ActionFilters
 {
     public class HandleExceptions : ExceptionFilterAttribute
     {
-      
+       // every exception will land here insert log to db 
         public override void OnException(ExceptionContext context)
         {
             var Exception = context.Exception;

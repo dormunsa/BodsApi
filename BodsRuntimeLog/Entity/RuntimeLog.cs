@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsRuntimeLog.Entity
 {
+    // define log structure as it stored in db
     public class RuntimeLog
     {
         public int Id { get; set; }

@@ -11,12 +11,13 @@ namespace BodsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // this controller is responsible for camera location opertions
     public class CameraLocationController : ControllerBase
     {
+        // return camera id by location  latitude and longitude values
         [HttpGet]
-        public async Task<IActionResult> GetWeather([FromQuery]double latitude, double longitude)
+        public async Task<IActionResult> GetCameraIdByLocation([FromQuery]double latitude, double longitude)
         {
-
             CameraLogic cameraLogic = new CameraLogic();
             int cameraId = await cameraLogic.GetCameraIdByLocation(latitude , longitude);
             if (cameraId == 0)

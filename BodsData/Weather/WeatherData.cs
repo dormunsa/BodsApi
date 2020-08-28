@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace BodsData
 {
+    // responsible for all the queries to weather table at DB
     public class WeatherData
     {
+        // get weather by weather id value query
         public async Task<List<Weather>> GetWeatherById(int weatherId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -27,6 +29,7 @@ namespace BodsData
 
         }
 
+        // get all weather raws from DB query
         public async Task<List<Weather>> GetWeather()
         {
             DynamicParameters _params = new DynamicParameters();
@@ -39,7 +42,7 @@ namespace BodsData
             }
 
         }
-
+        // get weather by location values query
         public async Task<List<Weather>> GetWeatherByLocation(float latitude, float longitude)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -57,7 +60,7 @@ namespace BodsData
             }
 
         }
-
+        // insert weather query
         public async Task<ulong> InsertWeather(Weather weather)
         {
             DynamicParameters _params = new DynamicParameters();

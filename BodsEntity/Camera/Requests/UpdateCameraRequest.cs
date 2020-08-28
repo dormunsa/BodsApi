@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for update camera operation
     public class UpdateCameraRequest
     {
         public string LocationName { get; set; }

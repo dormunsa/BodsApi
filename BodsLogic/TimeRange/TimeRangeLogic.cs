@@ -8,6 +8,7 @@ namespace BodsLogic
 {
     public class TimeRangeLogic
     {
+        // adjust time range by time range request values
         public async Task<TimeRangeResponse> GetTimeRange(string timeRange)
         {
             TimeRangeResponse response = new TimeRangeResponse();

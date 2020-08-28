@@ -13,8 +13,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for get chart object by dates
     public class ChartReportController : ControllerBase
     {
+        //get chart object by dates
         [HttpGet]
         public async Task<IActionResult> GetChatrtReport([FromQuery] DateTime fromDate, DateTime toDate)
         {

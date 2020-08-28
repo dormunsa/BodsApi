@@ -12,8 +12,10 @@ namespace BodsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // this controller is responsible for detection insert and get detections
     public class DetectionController : ControllerBase
     {
+        //responsible for  insert  detection
         [HttpPost]
         public async Task<IActionResult> InsertDetection([FromBody]InsertDetection request)
         {
@@ -24,6 +26,8 @@ namespace BodsApi.Controllers
                 return BadRequest(detectionLogic.Response.ErrorMessage);
             return Ok("Success");
         }
+
+        //responsible for  get  detections that come from camera that asigned to user- identify user by UserGuid Header value
         [HttpGet]
         public async Task<IActionResult> GetDetection()
         {

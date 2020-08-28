@@ -34,6 +34,7 @@ namespace BodsApi
             services.AddCors();
             services.AddMvc(options =>
             {
+                // subscribe exception action filter to get every exception
                 options.Filters.Add(new HandleExceptions());
             });
 
@@ -88,11 +89,13 @@ namespace BodsApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // initialize db connection string and Client Id and ClientSecret by values that stored in app.json
                 InitConnectionString(Configuration["Db:LOCAL"], Configuration["RuntimeLogsDB:LOCAL"]);
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // initialize db connection string and Client Id and ClientSecret by values that stored in app.json
                 InitConnectionString(Configuration["Db:PROD"], Configuration["RuntimeLogsDB:PROD"]);
                 app.UseHsts();
             }

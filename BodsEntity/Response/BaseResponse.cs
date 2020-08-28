@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for base  response 
     public class BaseResponse
     {
           public bool IsSuccessful { get; set; }

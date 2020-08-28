@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define detection object as it stored at DB
     public class Detection
     {
         public int DetectionId { get; set; }

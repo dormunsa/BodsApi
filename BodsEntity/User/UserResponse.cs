@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define user response object for user
     public class UserResponse
     {
         public UserResponse(int userId, string userName, bool isAdmin, string firstName, string lastName , string phone , string slackWebHook)

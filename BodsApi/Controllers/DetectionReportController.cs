@@ -13,8 +13,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for get table report object 
     public class DetectionReportController : ControllerBase
     {
+        // responsible for get table report object
         [HttpGet]
         public async Task<IActionResult> GetReport([FromQuery] DateTime fromDate, DateTime toDate)
         {

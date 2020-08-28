@@ -11,6 +11,7 @@ namespace BodsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // this controller is responsible for get phone number of User by Camera id 
     public class GetPhoneController : ControllerBase
     {
         [HttpGet]

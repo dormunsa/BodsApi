@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define camera object as it stored at DB
     public class Camera
     {
         public int CameraId { get; set; }

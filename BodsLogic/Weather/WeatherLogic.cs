@@ -19,6 +19,7 @@ namespace BodsLogic
 
         public async Task<List<Weather>> GetWeather(int weatherId, float latitude, float longitude)
         {
+            // valdiate whiche method to call cy request values
             if (latitude != 0 && longitude != 0)
                 return await weatherCRUDService.GetWeatherByLocation(latitude, longitude);
             if (weatherId != 0)
@@ -28,6 +29,7 @@ namespace BodsLogic
 
         public async Task<int> InsertWeather(InsertWeatherRequest request)
         {
+            // valdiate request
             if (request.Latitude == 0 || request.Longitude == 0 || request.WindSpeed == 0)
             {
                 Response.IsSuccessful = false;
@@ -44,6 +46,7 @@ namespace BodsLogic
                 Description = request.Description,
                 WindSpeed = request.WindSpeed
             };
+            // insert weather
             int newId = (int) await weatherCRUDService.InsertWeather(weather);
             if (newId == 0)
             {

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for login response 
     public class LoginResponse
     {
         public LoginResponse(int userId, string userName, bool isAdmin, int adminId, bool isSetPasswordAllowed, string userGuid)

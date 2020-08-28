@@ -9,8 +9,10 @@ using System.Linq;
 
 namespace BodsData
 {
+    // responsible for all the queries to user table at DB
     public class UserData
     {
+        // get user by user guid query
         public async Task<User> GetByUserGuid(string userGuid)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -26,7 +28,7 @@ namespace BodsData
             }
 
         }
-
+        // get user by user name query
         public async Task<User> GetByUserName(string userName)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -42,7 +44,7 @@ namespace BodsData
             }
 
         }
-
+        // get user by user id query
         public async Task<User> GetByUserId(int userId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -59,7 +61,7 @@ namespace BodsData
             }
 
         }
-
+        // insert user query
         public async Task<bool> InsertUser(User user)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -106,6 +108,7 @@ namespace BodsData
             }
 
         }
+        // update user query
         public async Task<bool> UpdateUser(UpdateUserDetails user)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -131,7 +134,7 @@ namespace BodsData
 
         }
 
-       
+        // update user password  query
         public async Task<bool> UpdatePassword(string hashedPassword, string UserGuid, byte[] saltPassword)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -154,6 +157,7 @@ namespace BodsData
             }
         }
 
+        // update IsSetPasswordAllowed value  query
         public async Task<bool> ResetPassword(int UserId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -170,6 +174,7 @@ namespace BodsData
             }
         }
 
+        // update IsAdmin to true query
         public async Task<bool> SetUserAsAdmin(int UserId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -185,6 +190,7 @@ namespace BodsData
                 return Convert.ToBoolean(await conn.ExecuteAsync(sql, _params));
             }
         }
+        // delete user query
         public async Task<bool> DeleteUser(int UserId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -198,6 +204,7 @@ namespace BodsData
                 return Convert.ToBoolean(await conn.ExecuteAsync(sql, _params));
             }
         }
+        // get users by adminId query
         public async Task<List<User>> GetAllChildUsers(int adminId)
         {
             DynamicParameters _params = new DynamicParameters();

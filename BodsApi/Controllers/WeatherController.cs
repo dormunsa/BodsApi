@@ -12,8 +12,10 @@ namespace BodsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // this controller is responsible for weather operations
     public class WeatherController : ControllerBase
     {
+        //responsible for insert weather 
         [HttpPost]
         public async Task<IActionResult> InsertWeather([FromBody]InsertWeatherRequest request)
         {
@@ -23,6 +25,8 @@ namespace BodsApi.Controllers
                 return BadRequest(weatherLogic.Response.ErrorMessage);
             return Ok(id);
         }
+
+        //responsible for get  weather by location or by id 
         [HttpGet]
         public async Task<IActionResult> GetWeather([FromQuery]int weatherId =0 , float latitude =0 , float longitude = 0)
         {

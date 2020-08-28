@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object insert user operation
     public class InsertUser
     {
         public string UserName { get; set; }

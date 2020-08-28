@@ -12,6 +12,7 @@ namespace BodsRuntimeLog.Data
     public static class DataRunTimeLogs
     {
         public static string RuntimeLogsConnectionString = "";
+        //insert exception log
         public static async Task<int> Insert(RuntimeLog i_exception)
         {
             DynamicParameters _params = new DynamicParameters();

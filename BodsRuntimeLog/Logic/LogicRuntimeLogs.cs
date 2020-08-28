@@ -9,7 +9,7 @@ namespace BodsRuntimeLog.Logic
 {
     public class LogicRuntimeLogs
     {
-       
+       // save log to db
         public static void SaveLog(RuntimeLog runTimeLog, bool sendEmail = true)
         {
             List<Task> TaskList = new List<Task>();

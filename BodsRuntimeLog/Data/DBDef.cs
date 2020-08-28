@@ -4,14 +4,7 @@ using System.Text;
 
 namespace BodsRuntimeLog.Data
 {
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // !!                                                !!
-    // !! The following code is automatically generated. !!
-    // !!                                                !!
-    // !!            DO NOT EDIT THIS CODE               !!
-    // !!                                                !!
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+   
 
     using System;
     using System.Collections.Generic;
@@ -315,15 +308,6 @@ namespace BodsRuntimeLog.Data
         } // end of class 
 
     } // namespace bodsruntimelogs
-
-
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // !!                                                !!
-    // !!       End of automatically generated code      !!
-    // !!                                                !!
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 
 }

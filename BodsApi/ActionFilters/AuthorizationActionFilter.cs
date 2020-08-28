@@ -9,6 +9,8 @@ namespace BodsApi.ActionFilters
 {
     public class AuthorizationActionFilter : ActionFilterAttribute
     {
+        // every request to api this action filter is execute and check ClientId and ClientSecret for secure that only permited users are sending request.
+        // initialize ClientId and ClientSecret in startup with value att app.json
         public static string ClientId { get; set; }
         public static string ClientSecret { get; set; }
 

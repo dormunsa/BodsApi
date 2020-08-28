@@ -21,17 +21,19 @@ namespace BodsLogic
         public UserCameraLogic userCameraLogic { get; set; }
         public UserCRUDService userCRUDService { get; set; }
 
+        // Update camera working status
         public async Task<bool> ChangeWorkingStatus(int cameraId, string guid)
         {
 
             Response.IsSuccessful = true;
+            // validate request values
             if (cameraId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide camera Id and guid ";
                 return false;
             }
-
+            // get user by guid and validate user permision
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.IsAdmin == false)
             {
@@ -40,6 +42,7 @@ namespace BodsLogic
                 return false;
             }
 
+            // get usercamera by camera id and validate camera is asigned to user
             UserCamera userCamera = await userCameraLogic.GetCameraById(cameraId);
             if (userCamera == null || (userCamera.UserId != user.UserId && userCamera.UserId != user.AdminId))
             {
@@ -48,6 +51,7 @@ namespace BodsLogic
                 return false;
             }
 
+            // get camera by id 
             Camera camera = await cameraCRUDService.GetCameraById(cameraId);
             if (camera == null)
             {
@@ -55,7 +59,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "camera is not exist ";
                 return false;
             }
-
+            // update camera working status by existing value
             if (camera.IsWorking)
                 return await cameraCRUDService.ChangeWorkingStatus(false, cameraId);
             return await cameraCRUDService.ChangeWorkingStatus( true , cameraId);
@@ -65,6 +69,7 @@ namespace BodsLogic
         {
 
             Response.IsSuccessful = true;
+            // validate request values
             if (string.IsNullOrEmpty(request.LocationName) || request.Latitude == 0 || request.Longitude == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
@@ -72,6 +77,7 @@ namespace BodsLogic
                 return;
             }
 
+            // get user by guid and validate user permision
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.IsAdmin == false)
             {
@@ -88,6 +94,7 @@ namespace BodsLogic
                 Longitude = request.Longitude,
                 LocationName = request.LocationName
             };
+            // insert camera and get new camera id 
             int newId = (int) await cameraCRUDService.InsertCamera(newCamera);
             if (newId == 0)
             {
@@ -95,7 +102,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "cannot insert camera";
                 return;
             }
-
+            // if camera inserted insert usercamera by new camera id value
             if (!await userCameraLogic.InsertUserCamera(user.UserId, newId))
             {
                 Response.IsSuccessful = false;
@@ -108,13 +115,14 @@ namespace BodsLogic
         {
 
             Response.IsSuccessful = true;
+            // validate request values
             if (request.CameraId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide all required fields ";
                 return;
             }
-
+            // get user by guid and validate user permision
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.IsAdmin == false)
             {
@@ -122,7 +130,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist or user  is not admin";
                 return;
             }
-
+            // get usercamera by camera id and validate camera is asigned to user
             UserCamera userCamera = await userCameraLogic.GetCameraById(request.CameraId);
             if (userCamera == null || (userCamera.UserId != user.UserId && userCamera.UserId != user.AdminId))
             {
@@ -139,6 +147,7 @@ namespace BodsLogic
                 Longitude = request.Longitude,
                 LocationName = request.LocationName
             };
+            // update camera 
             if ( ! await cameraCRUDService.UpdateCamera(newCamera))
             {
                 Response.IsSuccessful = false;
@@ -152,13 +161,14 @@ namespace BodsLogic
         {
 
             Response.IsSuccessful = true;
+            // validate request values
             if (request.CameraId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide all required fields ";
                 return;
             }
-
+            // get user by guid and validate user permision
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.IsAdmin == false)
             {
@@ -166,7 +176,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist or user  is not admin";
                 return;
             }
-
+            // get usercamera by camera id and validate camera is asigned to user
             UserCamera userCamera = await userCameraLogic.GetCameraById(request.CameraId);
             if (userCamera == null || (userCamera.UserId != user.UserId && userCamera.UserId != user.AdminId))
             {
@@ -174,7 +184,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "camera is not exist or user  is own this camera";
                 return;
             }
-            
+            // delete camera 
             if (!await cameraCRUDService.DeleteCamera(request.CameraId))
             {
                 Response.IsSuccessful = false;
@@ -188,13 +198,14 @@ namespace BodsLogic
         {
 
             Response.IsSuccessful = true;
+            // validate request values
             if ( string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide guid ";
                 return null;
             }
-
+            // get user by guid 
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null )
             {
@@ -202,7 +213,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist or user  is not admin";
                 return null;
             }
-
+            // get user cameras by user id 
             List<UserCamera> userCameras = await userCameraLogic.GetByUserId(user.UserId);
             if (userCameras.Count == 0)
             {
@@ -211,6 +222,7 @@ namespace BodsLogic
                 return null;
             }
             List<Camera> cameras = new List<Camera>();
+            // get all cameras by camera id in foreach loop 
             foreach (UserCamera userCamera in userCameras)
             {
                 Camera camera = await cameraCRUDService.GetCameraById(userCamera.CameraId);
@@ -232,13 +244,14 @@ namespace BodsLogic
         {
 
             Response.IsSuccessful = true;
+            // validate request values
             if (latitude == 0 || longitude == 0) 
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide latitude and longitude ";
                 return 0;
             }
-
+            // get camera by location values 
             Camera camera = await cameraCRUDService.GetCameraByLocation(latitude , longitude);
             if (camera == null)
             {

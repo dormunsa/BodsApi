@@ -1,11 +1,4 @@
-﻿// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!                                                !!
-// !! The following code is automatically generated. !!
-// !!                                                !!
-// !!            DO NOT EDIT THIS CODE               !!
-// !!                                                !!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -13,11 +6,9 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 namespace bods
 {
-
+    // this class is describe exectly the db sructure all the tables and columns for db queries mistakes avoid
     public static class bods
     {
-
-
 
         public static string ConnectionString;
         public static Camera Tcamera = new Camera();
@@ -888,11 +879,5 @@ namespace bods
 } // namespace bods
 
 
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!                                                !!
-// !!       End of automatically generated code      !!
-// !!                                                !!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 

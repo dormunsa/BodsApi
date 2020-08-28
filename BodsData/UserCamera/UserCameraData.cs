@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace BodsData
 {
+    // responsible for all the queries to usercamera table at DB
     public class UserCameraData
     {
+        // get camera by camera id values query
         public async Task<UserCamera> GetCameraById(int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -27,6 +29,7 @@ namespace BodsData
 
         }
 
+        // get list by user id  query
         public async Task<List<UserCamera>> GetByUserId(int userId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -43,6 +46,7 @@ namespace BodsData
 
         }
 
+        // get list by user id and camera id   query
         public async Task<UserCamera> GetByUserIdAndCameraId(int userId , int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -61,6 +65,7 @@ namespace BodsData
 
         }
 
+        // update user id  query
         public async Task<bool> UpdateUserId(int userId, int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -79,6 +84,7 @@ namespace BodsData
 
         }
 
+        // insert usercamera   query
         public async Task<bool> InsertUserCamera(int userId, int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -102,6 +108,7 @@ namespace BodsData
 
         }
 
+        // delete usercamera query
         public async Task<bool> DeleteUserCamera(int userId, int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();

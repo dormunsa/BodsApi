@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for TimeRangeResponse 
     public class TimeRangeResponse
     {
         public DateTime FromDate { get; set; }

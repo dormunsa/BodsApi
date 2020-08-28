@@ -13,8 +13,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for set user password
     public class SetUserPasswordController : ControllerBase
     {
+        //responsible for set user password identify user by UserGuid Header Value and set newPassword value as the new password
         [HttpPost]
         public async Task<IActionResult> SetPassword([FromBody] string newPassword)
         {

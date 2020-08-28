@@ -14,8 +14,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for user operations
     public class UserController : ControllerBase
     {
+        //responsible for get user by id
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery]int userId)
         {
@@ -28,6 +30,7 @@ namespace BodsApi.Controllers
 
             return Ok(userList);
         }
+        //responsible for insert new user 
         [HttpPost]
         public async Task<IActionResult> InsertUser([FromBody]InsertUser request)
         {
@@ -40,7 +43,7 @@ namespace BodsApi.Controllers
 
             return Ok("Success");
         }
-
+        //responsible for update user 
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody]UpdateUserDetails request)
         {
@@ -53,7 +56,7 @@ namespace BodsApi.Controllers
 
             return Ok("Success");
         }
-
+        //responsible for delete user 
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody]DeleteRequest request)
         {

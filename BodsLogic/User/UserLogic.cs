@@ -24,15 +24,17 @@ namespace BodsLogic
         public CameraLogic cameraLogic { get; set; }
         public async Task Login(string guid, LoginRequest request = null)
         {
+            // validate request values
             if ((string.IsNullOrEmpty(request?.UserName) || string.IsNullOrEmpty(request?.Password)) && string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "Bad Request";
                 return;
             }
-
+            // check if login by guid or by credentials
             if (string.IsNullOrEmpty(guid))
             {
+                // get user by user name
                 User user = await userCRUDService.GetByUserName(request?.UserName);
                 if (user == null)
                 {
@@ -40,6 +42,7 @@ namespace BodsLogic
                     Response.ErrorMessage = "UserName is Incorrect.";
                     return;
                 }
+                // check hashed password by credentails
                 string requestPassword = CryptographyHelper.HashPassword(request.Password, user.SaltPassword);
 
                 if (user.HashedPassword != requestPassword)
@@ -48,6 +51,7 @@ namespace BodsLogic
                     Response.ErrorMessage = "UserName/Password is Incorrect.";
                     return;
                 }
+                // init login response
                 Response.IsSuccessful = true;
                 loginResponse = new LoginResponse(user.UserId, user.UserName, user.IsAdmin, user.AdminId, user.IsSetPasswordAllowed, user.UserGuid);
                 return;
@@ -55,6 +59,7 @@ namespace BodsLogic
 
             else
             {
+                // get user by guid
                 User user = await userCRUDService.GetByUserGuid(guid);
                 if (user == null)
                 {
@@ -62,6 +67,7 @@ namespace BodsLogic
                     Response.ErrorMessage = "guid is Incorrect.";
                     return;
                 }
+                // init login resposne
                 Response.IsSuccessful = true;
                 loginResponse = new LoginResponse(user.UserId, user.UserName, user.IsAdmin, user.AdminId, user.IsSetPasswordAllowed, user.UserGuid);
                 return;
@@ -70,42 +76,45 @@ namespace BodsLogic
 
         public async Task<bool> UpdatePortalUserPassword(string newPassword, string guid)
         {
-
+            // validate guid
             if (string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "You must provide guid";
                 return Response.IsSuccessful;
             }
+            // validate password
             if ( string.IsNullOrEmpty(newPassword))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide user name or password";
                 return Response.IsSuccessful;
             }
-            //read portalUser
+            // get user by guid
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.IsSetPasswordAllowed == false )
                 return false;
 
-            //hash password
+            //get hash password
             byte[] salt = CryptographyHelper.GenerateRandomSalt();
 
             string hashedPassword = CryptographyHelper.HashPassword(newPassword, salt);
 
+            //update password
             return await userCRUDService.UpdatePassword(hashedPassword, guid, salt);
         }
 
         public async Task ResetPassword(string usreName, string guid)
         {
             Response.IsSuccessful = true;
+            // validate request
             if (string.IsNullOrEmpty(usreName) || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide user name and guid ";
                 return;
             }
-
+            // get user by guid
             User user = await userCRUDService.GetByUserGuid(guid);
             if (user == null || user?.UserName != usreName)
             {
@@ -113,7 +122,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "user is not exist or user name is not correct";
                 return;
             }
-
+            // reset password by user id
             if (!await userCRUDService.ResetPassword(user.UserId))
             {
                 Response.IsSuccessful = false;
@@ -125,14 +134,16 @@ namespace BodsLogic
         public async Task SetUserAsAdmin(int usreId, string guid)
         {
             Response.IsSuccessful = true;
+            // validate request
             if (usreId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide user Id and guid ";
                 return;
             }
-
+            // get user by guid
             User user = await userCRUDService.GetByUserGuid(guid);
+            // get user by user id request value
             User userToSetAsAdmin = await userCRUDService.GetByUserId(usreId);
             if (user == null || userToSetAsAdmin == null || userToSetAsAdmin?.AdminId != user?.UserId)
             {
@@ -140,7 +151,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "Ilegale operation";
                 return;
             }
-
+            // set user by as admin 
             if (!await userCRUDService.SetUserAsAdmin(userToSetAsAdmin.UserId))
             {
                 Response.IsSuccessful = false;
@@ -151,14 +162,16 @@ namespace BodsLogic
         public async Task UpdateUserDetails(UpdateUserDetails userDetails, string guid)
         {
             Response.IsSuccessful = true;
+            // validate request
             if (userDetails.UserId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide user Id and guid ";
                 return;
             }
-
+            // get user by guid
             User user = await userCRUDService.GetByUserGuid(guid);
+            // get user by user id request value
             User userToUpdate = await userCRUDService.GetByUserId(userDetails.UserId);
 
             if (user == null || userToUpdate == null || user?.UserId != userToUpdate?.AdminId)
@@ -167,7 +180,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "Ilegale operation";
                 return;
             }
-
+            //update user
             if (!await userCRUDService.UpdateUser(userDetails))
             {
                 Response.IsSuccessful = false;
@@ -178,14 +191,16 @@ namespace BodsLogic
         public async Task DeleteUser(DeleteRequest request, string guid)
         {
             Response.IsSuccessful = true;
+            // validate request
             if (request.UserId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide user Id and guid ";
                 return;
             }
-
+            // get user by guid
             User user = await userCRUDService.GetByUserGuid(guid);
+            // get user by user id request value
             User userToDelete = await userCRUDService.GetByUserId(request.UserId);
 
             if (user == null || userToDelete == null || user?.UserId != userToDelete?.AdminId)
@@ -194,7 +209,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "Ilegale operation";
                 return;
             }
-
+            // delete user
             if (!await userCRUDService.DeleteUser(userToDelete.UserId))
             {
                 Response.IsSuccessful = false;
@@ -205,13 +220,14 @@ namespace BodsLogic
         public async Task InsertUser(InsertUser request, string guid)
         {
             Response.IsSuccessful = true;
+            // validate request
             if (request.AdminId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide Admin Id and guid ";
                 return;
             }
-
+            // get user by guid and validate permisions
             User user = await userCRUDService.GetByUserGuid(guid);
 
             if (user == null ||  user?.UserId != request.AdminId)
@@ -239,6 +255,7 @@ namespace BodsLogic
                 SlackWebHook = request.SlackWebHook
             };
 
+            //insert user
             if (!await userCRUDService.InsertUser(userToCreate))
             {
                 Response.IsSuccessful = false;
@@ -248,13 +265,14 @@ namespace BodsLogic
         }
         public async Task<List<UserResponse>> GetAllChildUsers(int userId, string guid)
         {
+            // validate request
             if (userId == 0 || string.IsNullOrEmpty(guid))
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide Admin Id and guid ";
                 return null;
             }
-
+            // get user by guid and validate permisions
             User user = await userCRUDService.GetByUserGuid(guid);
 
             if (user == null || user?.UserId != userId)
@@ -265,6 +283,8 @@ namespace BodsLogic
             }
             List<User> users =  await userCRUDService.GetAllChildUsers(user.UserId);
             List<UserResponse> userResponses = new List<UserResponse>();
+
+            //read all users that asigend to this user
             if (users.Count > 0)
             {
                 foreach (User indexUser in users)
@@ -277,13 +297,14 @@ namespace BodsLogic
         }
         public async Task<string> GetPhoneByCameraId(int cameraId)
         {
+            // validate request
             if (cameraId == 0 )
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide Camera Id  ";
                 return null;
             }
-
+            // get user camera by camera id 
             UserCamera userCamera = await userCameraLogic.GetCameraById(cameraId);
 
             if (userCamera == null || userCamera?.UserId == 0)
@@ -292,6 +313,8 @@ namespace BodsLogic
                 Response.ErrorMessage = "Ilegale operation";
                 return null;
             }
+
+            // get user  by user id 
             User user = await userCRUDService.GetByUserId(userCamera.UserId);
             if (user == null || user.Phone ==null)
             {
@@ -304,13 +327,14 @@ namespace BodsLogic
         }
         public async Task<string> GetHookByCameraId(int cameraId)
         {
+            // validate request
             if (cameraId == 0)
             {
                 Response.IsSuccessful = false;
                 Response.ErrorMessage = "you must provide Camera Id  ";
                 return null;
             }
-
+            // get user camera by camera id 
             UserCamera userCamera = await userCameraLogic.GetCameraById(cameraId);
 
             if (userCamera == null || userCamera?.UserId == 0)
@@ -319,6 +343,7 @@ namespace BodsLogic
                 Response.ErrorMessage = "Ilegale operation";
                 return null;
             }
+            // get user  by user id 
             User user = await userCRUDService.GetByUserId(userCamera.UserId);
             if (user == null || user.SlackWebHook == null)
             {

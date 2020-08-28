@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for all of time range options 
     public class TimeRangeDefinition
     {
         public const string weekToDate = "weekToDate";

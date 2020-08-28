@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for insert weather operation
     public class InsertWeatherRequest
     {
         public string LocationName { get; set; }

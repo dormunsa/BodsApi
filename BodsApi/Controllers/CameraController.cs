@@ -14,8 +14,11 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+
+    // this controller is responsible for camera opertions
     public class CameraController : ControllerBase
     {
+        // insert new camera to db
         [HttpPost]
         public async Task<IActionResult> InsertCamera([FromBody]UpdateCameraRequest request)
         {
@@ -26,6 +29,7 @@ namespace BodsApi.Controllers
                 return BadRequest(cameraLogic.Response.ErrorMessage);
             return Ok("Success");
         }
+        // update camera details in db
         [HttpPut]
         public async Task<IActionResult> UpdateCamera([FromBody]UpdateCameraRequest request)
         {
@@ -36,7 +40,7 @@ namespace BodsApi.Controllers
                 return BadRequest(cameraLogic.Response.ErrorMessage);
             return Ok("Success");
         }
-
+        // delete camera from db
         [HttpDelete]
         public async Task<IActionResult> DeleteCamera([FromBody]Camera request)
         {
@@ -48,6 +52,7 @@ namespace BodsApi.Controllers
             return Ok(JsonConvert.SerializeObject("success"));
         }
 
+        // get all cameras that asign to this user - identify user by UserGuid Header value
         [HttpGet]
         public async Task<IActionResult> GetCameras()
         {

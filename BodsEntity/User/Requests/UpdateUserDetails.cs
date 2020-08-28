@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for update user details operation
     public class UpdateUserDetails
     {
         public int UserId { get; set; }

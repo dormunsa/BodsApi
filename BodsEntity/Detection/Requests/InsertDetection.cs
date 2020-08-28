@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for insert detection operation
     public class InsertDetection
     {
         public int CameraId { get; set; }

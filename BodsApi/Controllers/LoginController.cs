@@ -13,8 +13,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for login operations
     public class LoginController : ControllerBase
     {
+        //responsible for login by user name and password
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginRequest request)
         {
@@ -26,7 +28,7 @@ namespace BodsApi.Controllers
 
             return Ok(userLogic.loginResponse);
         }
-        
+        //responsible for login by UserGuid
         [HttpGet]
         public async Task<IActionResult> LoginByGuid()
         {

@@ -12,8 +12,10 @@ namespace BodsApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AuthorizationActionFilter]
+    // this controller is responsible for reset password operations
     public class ResetPasswordController : ControllerBase
     {
+        //responsible for reset password by user name
         [HttpPost]
         public async Task<IActionResult> ResetPassword([FromBody]string userName)
         {

@@ -8,6 +8,7 @@ namespace BodsLogic
 {
     public class CryptographyHelper
     {
+        // generate a random encryted salt value
         public static byte[] GenerateRandomSalt()
         {
             byte[] salt = new byte[128 / 8];
@@ -19,9 +20,10 @@ namespace BodsLogic
             return salt;
         }
 
+        // generate a random encryted password by salt value and password
         public static string HashPassword(string password, byte[] salt)
         {
-            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,

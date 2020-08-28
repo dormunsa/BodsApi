@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace BodsData
 {
+    // responsible for all the queries to detection table at DB
     public class DetectionData
     {
+        // get detection by detection id query
         public async Task<List<Detection>> GetDetection(int detectionId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -28,6 +30,7 @@ namespace BodsData
 
         }
 
+        // get detection by camera id query
         public async Task<List<Detection>> GetDetectionByCameraId(int cameraId)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -45,7 +48,7 @@ namespace BodsData
         }
 
 
-
+        // insert detection query
         public async Task<bool> InsertDetection(Detection detection)
         {
             DynamicParameters _params = new DynamicParameters();
@@ -75,6 +78,7 @@ namespace BodsData
 
         }
 
+        // read detection left joins query
         public async Task<List<DetectionResponse>> ReadDetection(DateTime fromDate, DateTime toDate , int cameraId)
         {
 
@@ -92,6 +96,7 @@ namespace BodsData
                          + " AND " + bods.bods.Tdetection.FCameraId.Cn + " =@CameraId";
             using (IDbConnection conn = DataLayer.NewConnection())
             {
+                // determine query response stracture
                 return (await conn.QueryAsync<DetectionResponse>(sql,
                 new[] {
                     typeof(int), //  0  DetectionId
@@ -114,6 +119,7 @@ namespace BodsData
                     typeof(DateTime) // 17 DateAdded             
                 }, objects =>
                 {
+                    // create object
                     DetectionResponse detectionResponse = new DetectionResponse()
                     {
                         CameraId = objects[1] as int? ?? 0,

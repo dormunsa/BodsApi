@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object delete user operation
     public class DeleteRequest
     {
         public int UserId { get; set; }

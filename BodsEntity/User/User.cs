@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define user object as it stored at DB
     public class User
     {
         public int UserId { get; set; }

@@ -10,8 +10,10 @@ namespace BodsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // this controller is responsible for get slack web hook of User by Camera id 
     public class GetHookController : ControllerBase
     {
+        //responsible for get slack web hook of User by Camera id 
         [HttpGet]
         public async Task<IActionResult> GetHook([FromQuery] int cameraId)
         {

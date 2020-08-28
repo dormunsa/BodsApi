@@ -4,6 +4,7 @@ using System.Text;
 
 namespace BodsEntity
 {
+    // define object for insert camera operation
     public class InsertCameraRequest
     {
         public string LocationName { get; set; }
